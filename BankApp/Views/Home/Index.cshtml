@@ -1,8 +1,28 @@
-﻿@{
+﻿@model BankApp.ViewModels.HomeIndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Statistik per land</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Land</th>
+            <th>Antal kunder</th>
+            <th>Antal konton</th>
+            <th class="text-end">Summa saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Statistics)
+        {
+            <tr>
+                <td>@row.Country</td>
+                <td>@row.CustomerCount</td>
+                <td>@row.AccountCount</td>
+                <td class="text-end">@row.TotalBalance.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BankApp.Services.Interfaces
 {
-    internal interface IStatisticsService
+    public interface IStatisticsService
     {
         Task<List<CountryStatsDto>> GetStatisticsPerCountryAsync();
     }

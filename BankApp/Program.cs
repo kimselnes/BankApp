@@ -1,5 +1,7 @@
 using BankApp.Data;
 using BankApp.Data.Data;
+using BankApp.Services.Interfaces;
+using BankApp.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,9 @@ namespace BankApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
+
+            // Containers
+            builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
 
             var app = builder.Build();

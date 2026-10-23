@@ -1,5 +1,7 @@
 using BankApp.Data.Data;
 using BankApp.Models;
+using BankApp.Services.Interfaces;
+using BankApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,9 +9,17 @@ namespace BankApp.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IStatisticsService _statisticsService;
+
+        public HomeController(IStatisticsService statisticsService)
         {
-            return View();
+            _statisticsService = statisticsService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var stats = await _statisticsService.GetStatisticsPerCountryAsync();
+            return View(new HomeIndexViewModel { Statistics = stats});
         }
 
         public IActionResult Privacy()
