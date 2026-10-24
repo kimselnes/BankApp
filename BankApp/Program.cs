@@ -30,6 +30,7 @@ namespace BankApp
 
             // Containers
             builder.Services.AddScoped<IStatisticsService, StatisticsService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
             var app = builder.Build();
