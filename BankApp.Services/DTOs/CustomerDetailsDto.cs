@@ -8,7 +8,7 @@ namespace BankApp.Services.DTOs
         int CustomerId,
         string Givenname,
         string Surname,
-        string Streetadress,
+        string Streetaddress,
         string City,
         string Zipcode,
         string Country,
@@ -17,7 +17,7 @@ namespace BankApp.Services.DTOs
         DateOnly? Birthday,
         string? NationalId,
         string? Telephonenumber,
-        string? Emailadress,
+        string? Emailaddress,
         decimal TotalBalance,
         IReadOnlyList<AccountDto> Accounts);
 }

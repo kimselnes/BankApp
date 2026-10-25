@@ -1,0 +1,57 @@
+﻿@model BankApp.ViewModels.CustomerDetailsViewModel
+@{
+	ViewData["Title"] = $"Kund {Model.Customer.CustomerId}";
+}
+
+<h1>@Model.Customer.Givenname @Model.Customer.Surname</h1>
+<p class="text-muted">Kundnummer: @Model.Customer.CustomerId</p>
+
+<h2>Kundinformation</h2>
+<dl class="row">
+    <dt class="col-sm-3">Personnummer</dt>
+    <dd class="col-sm-9">@Model.Customer.NationalId</dd>
+
+    <dt class="col-sm-3">Adress</dt>
+    <dd class="col-sm-9">@Model.Customer.Streetaddress, @Model.Customer.Zipcode @Model.Customer.City</dd>
+
+    <dt class="col-sm-3">Land</dt>
+    <dd class="col-sm-9">@Model.Customer.Country</dd>
+
+    <dt class="col-sm-3">Telefon</dt>
+    <dd class="col-sm-9">@Model.Customer.Telephonenumber</dd>
+
+    <dt class="col-sm-3">E-post</dt>
+    <dd class="col-sm-9">@Model.Customer.Emailaddress</dd>
+</dl>
+
+<h2>Konton</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kontonummer</th>
+            <th>Saldo</th>
+            <th>Skapad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model.Customer.Accounts)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-controller="Accounts" asp-route-id="@account.AccountId">
+                        @account.AccountId
+                    </a>
+                </td>
+                <td class="text-start">@account.Balance.ToString("N2")</td>
+                <td>@account.Created.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Totalt saldo</th>
+            <th class="text-start">@Model.Customer.TotalBalance.ToString("N2")</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
