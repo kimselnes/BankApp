@@ -1,9 +1,12 @@
 ﻿using BankApp.Services.Interfaces;
 using BankApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers
 {
+    [Authorize(Roles ="Admin, Cashier")]
     public class CustomersController : Controller
     {
         private readonly ICustomerService _customerService;
