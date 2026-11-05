@@ -1,10 +1,10 @@
-﻿using BankApp.Services.DTOs;
-using BankApp.Services.Services;
+﻿using BankApp.Data.DTOs;
+using BankApp.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Services.Interfaces
+namespace BankApp.Data.Interfaces
 {
     public interface ICustomerRepository
     {

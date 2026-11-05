@@ -1,4 +1,4 @@
-﻿using BankApp.Services.DTOs;
+﻿using BankApp.Data.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Services.DTOs
+namespace BankApp.Data.DTOs
 {
     public record CustomerDetailsDto(
         int CustomerId,

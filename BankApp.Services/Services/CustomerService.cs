@@ -1,5 +1,7 @@
-﻿using BankApp.Data.Data;
-using BankApp.Services.DTOs;
+﻿using BankApp.D.Interfaces;
+using BankApp.Data.Data;
+using BankApp.Data.DTOs;
+using BankApp.Data.Interfaces;
 using BankApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,16 +12,19 @@ namespace BankApp.Services.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly BankAppDataContext _dbContext;
+        private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(BankAppDataContext dbContext)
+        //private readonly BankAppDataContext _dbContext;
+
+        public CustomerService(ICustomerRepository customerRepository)
         {
-            _dbContext = dbContext;
+            _customerRepository = customerRepository;
+            //_dbContext = dbContext;
         }
 
         public async Task<CustomerDetailsDto> GetCustomerDetailsDtoAsync(int customerId)
         {
-            var customer = await _dbContext.Customers
+            var customer = await _customerRepository.Customers
                 .Where(c => c.CustomerId == customerId)
                 .Select(c => new
                 {

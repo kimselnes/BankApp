@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Services.Services
+namespace BankApp.Data.Models
 {
     public class PagedResult<T>
     {

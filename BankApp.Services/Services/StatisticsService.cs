@@ -1,5 +1,5 @@
 ﻿using BankApp.Data.Data;
-using BankApp.Services.DTOs;
+using BankApp.Data.DTOs;
 using BankApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;

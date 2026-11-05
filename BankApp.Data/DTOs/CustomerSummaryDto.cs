@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace BankApp.Services.DTOs
+namespace BankApp.Data.DTOs
 {
     public record CustomerSummaryDto(
         int CustomerId,

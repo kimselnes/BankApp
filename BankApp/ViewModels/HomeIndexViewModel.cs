@@ -1,4 +1,4 @@
-﻿using BankApp.Services.DTOs;
+﻿using BankApp.Data.DTOs;
 
 namespace BankApp.ViewModels
 {
