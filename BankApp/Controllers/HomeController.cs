@@ -22,10 +22,10 @@ namespace BankApp.Controllers
             return View(new HomeIndexViewModel { Statistics = stats});
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        //public IActionResult Privacy()
+        //{
+        //    return View();
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
