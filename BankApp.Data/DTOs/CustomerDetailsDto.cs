@@ -18,6 +18,9 @@ namespace BankApp.Data.DTOs
         string? NationalId,
         string? Telephonenumber,
         string? Emailaddress,
-        decimal TotalBalance,
-        IReadOnlyList<AccountDto> Accounts);
+        IReadOnlyList<AccountDto> Accounts)
+    {
+        public decimal TotalBalance => Accounts.Sum(a => a.Balance);
+    }
+
 }

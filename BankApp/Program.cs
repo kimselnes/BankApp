@@ -1,5 +1,7 @@
 using BankApp.Data;
 using BankApp.Data.Data;
+using BankApp.Data.Interfaces;
+using BankApp.Data.Repositories;
 using BankApp.Services.Interfaces;
 using BankApp.Services.Services;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +33,7 @@ namespace BankApp
             // Containers
             builder.Services.AddScoped<IStatisticsService, StatisticsService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
-
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             var app = builder.Build();
 
