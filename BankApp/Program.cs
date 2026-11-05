@@ -34,6 +34,7 @@ namespace BankApp
             builder.Services.AddScoped<IStatisticsService, StatisticsService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 
             var app = builder.Build();
 

@@ -4,6 +4,6 @@ namespace BankApp.ViewModels
 {
     public class HomeIndexViewModel
     {
-        public IReadOnlyList<CountryStatsDto> Statistics { get; set; } = new List<CountryStatsDto>();
+        public IList<CountryStatsDto> Statistics { get; set; } = new List<CountryStatsDto>(); // Vill jag ha den som en IReadOnlyList ???
     }
 }

@@ -7,6 +7,6 @@ namespace BankApp.Services.Interfaces
 {
     public interface IStatisticsService
     {
-        Task<List<CountryStatsDto>> GetStatisticsPerCountryAsync();
+        Task<IList<CountryStatsDto>> GetStatisticsPerCountryAsync();
     }
 }
