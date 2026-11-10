@@ -16,9 +16,22 @@ namespace BankApp.Controllers
             _customerService = customerService;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index(string? name, string? city, int pageNo = 1)
         {
-            return View();
+            if (pageNo < 1)
+            {
+                pageNo = 1;
+            }
+
+            var result = await _customerService.SearchCustomerAsync(name, city, pageNo, 50);
+
+            return View(new CustomerIndexViewModel
+            {
+                Name = name,
+                City = city,
+                Results = result
+            });
         }
 
         public async Task<IActionResult> Details(int id) 

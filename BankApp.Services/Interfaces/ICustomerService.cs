@@ -1,7 +1,8 @@
 ﻿using BankApp.Data.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using BankApp.Data.Models;
+//using System;
+//using System.Collections.Generic;
+//using System.Text;
 
 namespace BankApp.Services.Interfaces
 {
@@ -9,5 +10,6 @@ namespace BankApp.Services.Interfaces
     {
         // Ska man lägga till ? efter CustomerDetailsDto ???
         Task<CustomerDetailsDto> GetCustomerDetailsDtoAsync(int customerId);
+        Task<PagedResult<CustomerSummaryDto>> SearchCustomerAsync(string name, string city, int pageNo, int pageSize);
     }
 }

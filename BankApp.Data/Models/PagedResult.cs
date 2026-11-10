@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BankApp.Data.Models
+﻿namespace BankApp.Data.Models
 {
     public class PagedResult<T>
     {

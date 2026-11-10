@@ -1,6 +1,7 @@
-﻿using BankApp.Data.Data;
+﻿//using BankApp.Data.Data;
 using BankApp.Data.DTOs;
 using BankApp.Data.Interfaces;
+using BankApp.Data.Models;
 using BankApp.Services.Interfaces;
 //using Microsoft.EntityFrameworkCore;
 //using System;
@@ -13,12 +14,12 @@ namespace BankApp.Services.Services
     {
         private readonly ICustomerRepository _customerRepository;
 
-        private readonly BankAppDataContext _dbContext;
+        //private readonly BankAppDataContext _dbContext;
 
-        public CustomerService(BankAppDataContext dbContext, ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
         }
 
 
@@ -27,6 +28,10 @@ namespace BankApp.Services.Services
             return await _customerRepository.GetDetailsAsync(customerId);
         }
 
+        public async Task<PagedResult<CustomerSummaryDto>> SearchCustomerAsync(string name, string city, int pageNo, int pageSize)
+        {
+            return await _customerRepository.SearchAsync(name, city, pageNo, pageSize);
+        }
 
 
 

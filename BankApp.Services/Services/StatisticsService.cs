@@ -1,14 +1,14 @@
-﻿using BankApp.Data.Data;
+﻿//using BankApp.Data.Data;
 using BankApp.Data.DTOs;
 using BankApp.Data.Interfaces;
 using BankApp.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Security.Cryptography;
-using System.Text;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.Identity.Client;
+//using System;
+//using System.Collections.Generic;
+//using System.Diagnostics.Metrics;
+//using System.Security.Cryptography;
+//using System.Text;
 
 namespace BankApp.Services.Services
 {
