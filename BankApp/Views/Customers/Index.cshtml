@@ -33,7 +33,16 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Kundnummer</th>
+            <th>
+                <a asp-action="Index"
+                   @* asp-route-name="@Model.Name"
+                   asp-route-city="@Model.City" *@
+                   asp-route-sortColumn="CustomerId"
+                   asp-route-sortOrder="@(Model.SortColumn == "CustomerId" && Model.SortOrder == "asc" ? "desc" : "asc")">
+                    Kundnummer
+                    @(Model.SortColumn == "CustomerId" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
+                </a>
+            </th>
             <th>Personnummer</th>
             <th>Namn</th>
             <th>Adress</th>

@@ -3,6 +3,7 @@ using BankApp.Data.DTOs;
 using BankApp.Data.Interfaces;
 using BankApp.Data.Models;
 using BankApp.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 //using Microsoft.EntityFrameworkCore;
 //using System;
 //using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace BankApp.Services.Services
             return await _customerRepository.GetDetailsAsync(customerId);
         }
 
-        public async Task<PagedResult<CustomerSummaryDto>> SearchCustomerAsync(string name, string city, int pageNo, int pageSize)
+        public async Task<PagedResult<CustomerSummaryDto>> SearchCustomerAsync(string name, string city, int pageNo, int pageSize, string sortOrder, string sortColumn)
         {
-            return await _customerRepository.SearchAsync(name, city, pageNo, pageSize);
+            return await _customerRepository.SearchAsync(name, city, pageNo, pageSize,  sortOrder,  sortColumn);
         }
 
 

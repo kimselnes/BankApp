@@ -16,5 +16,7 @@ namespace BankApp.ViewModels
         public string? City { get; set; }
 
         public PagedResult<CustomerSummaryDto> Results { get; set; } = new();
+        public string SortColumn { get; set; }
+        public string SortOrder { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace BankApp.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<PagedResult<CustomerSummaryDto>> SearchAsync(string? name, string? city, int pageNo, int pageSize)
+        public async Task<PagedResult<CustomerSummaryDto>> SearchAsync(string? name, string? city, int pageNo, int pageSize, string sortOrder, string sortColumn)
         {
             if (pageNo < 1)
             {
@@ -68,12 +68,33 @@ namespace BankApp.Data.Repositories
                 query = query.Where(c => c.City != null && c.City.Contains(ci));
             }
 
+            // Sortering
+            if (sortColumn == "CustomerId")
+            {
+                if (sortOrder == "desc")
+                {
+                    query = query.OrderByDescending(c => c.CustomerId);
+                }
+                else
+                {
+                    query = query.OrderBy(c => c.CustomerId);
+
+                }
+            }
+            else
+            {
+                query = query
+                    .OrderBy(c => c.Surname)
+                    .ThenBy(c => c.Givenname)
+                    .ThenBy(c => c.CustomerId);
+            }
+
             var totalCount = await query.CountAsync();
 
             var items = await query
-                .OrderBy(c => c.Surname)
-                .ThenBy(c => c.Givenname)
-                .ThenBy(c => c.CustomerId)
+                //.OrderBy(c => c.Surname)
+                //.ThenBy(c => c.Givenname)
+                //.ThenBy(c => c.CustomerId)
                 .Skip((pageNo - 1) * pageSize)
                 .Take(pageSize)
                 .Select(c => new CustomerSummaryDto(
