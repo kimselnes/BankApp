@@ -8,7 +8,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BankApp.Controllers
 {
-    [Authorize(Roles ="Admin, Cashier")]
+    [Authorize(Roles ="Admin,Cashier")]
     public class CustomersController : Controller
     {
         private readonly ICustomerService _customerService;
@@ -41,15 +41,15 @@ namespace BankApp.Controllers
 
         public async Task<IActionResult> Details(int id) 
         {
-            var customer = await _customerService.GetCustomerDetailsDtoAsync(id);
+            var customerDto = await _customerService.GetCustomerDetailsDtoAsync(id);
 
-            if (customer == null)
+            if (customerDto == null)
             {
                 TempData["Error"] = $"Det finns ingen kund med kundnummer {id}.";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(new CustomerDetailsViewModel { Customer = customer});
+            return View(new CustomerDetailsViewModel { Customer = customerDto});
         }
     }
 }
