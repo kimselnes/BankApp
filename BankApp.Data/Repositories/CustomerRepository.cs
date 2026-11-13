@@ -19,7 +19,6 @@ namespace BankApp.Data.Repositories
         public async Task<CustomerDetailsDto?> GetDetailsAsync(int customerId)
         {
             return await _dbContext.Customers
-                .AsNoTracking()
                 .Where(c => c.CustomerId == customerId)
                 .Select(c => new CustomerDetailsDto(
                     c.CustomerId,

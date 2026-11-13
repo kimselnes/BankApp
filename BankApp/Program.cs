@@ -30,11 +30,13 @@ namespace BankApp
 
             builder.Services.AddControllersWithViews();
 
-            // Containers
+            // Containers, DI
             builder.Services.AddScoped<IStatisticsService, StatisticsService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
             var app = builder.Build();
 
