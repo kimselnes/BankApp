@@ -1,5 +1,4 @@
 ﻿@model BankApp.ViewModels.AccountDetailsViewModel
-
 @{
     ViewData["Title"] = $"Konto {Model.Account.AccountId}";
 }
@@ -13,7 +12,7 @@
     Tillhör:
     @foreach (var owner in Model.Account.Owners)
     {
-        <a asp-controller="Customers" asp-action="Details"
+        <a class="btn btn-info" asp-controller="Customers" asp-action="Details"
            asp-route-id="@owner.CustomerId">@owner.Givenname @owner.Surname</a>
     }
 </p>
@@ -26,23 +25,13 @@
             <th>Operation</th>
             <th>Belopp</th>
             <th>Saldo efter</th>
+            <th>Symbol</th>
             <th>Bank</th>
             <th>Konto</th>
         </tr>
     </thead>
     <tbody id="transactionBody">
-        @foreach (var t in Model.Transactions.Items)
-        {
-            <tr>
-                <td>@t.Date.ToString("yyyy-MM-dd")</td>
-                <td>@t.Type</td>
-                <td>@t.Operation</td>
-                <td>@t.Amount.ToString("N2")</td>
-                <td>@t.BalanceAfterTransaction.ToString("N2")</td>
-                <td>@t.Bank</td>
-                <td>@t.RecipientAccountNumber</td>
-            </tr>
-        }
+        <partial name="_TransactionRows" model="Model.Transactions.Items" />
     </tbody>
 </table>
 
