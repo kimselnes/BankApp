@@ -7,5 +7,7 @@ namespace BankApp.Services.Interfaces
     {
         Task<AccountWithOwnersDto?> GetAccountAsync(int accountId);
         Task<PagedResult<TransactionDto>> GetTransactionsAsync(int accountId, int pageNo);
+
+        Task<TransactionResult> WithdrawAsync(int accountId, decimal amount);
     }
 }

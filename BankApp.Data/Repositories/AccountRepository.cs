@@ -1,5 +1,6 @@
 ﻿using BankApp.Data.Data;
 using BankApp.Data.DTOs;
+using BankApp.Data.Entities;
 using BankApp.Data.Interfaces;
 using BankApp.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace BankApp.Data.Repositories
         {
             _dbContext = dbContext;
         }
+
 
 
         public async Task<AccountWithOwnersDto?> GetAccountWithOwnersAsync(int accountId)
@@ -63,6 +65,21 @@ namespace BankApp.Data.Repositories
                 PageNo = pageNo,
                 PageSize = pageSize
             };
+        }
+
+        public void AddTransaction(Transaction transaction)
+        {
+            _dbContext.Transactions.Add(transaction);
+        }
+
+        public async Task<Account?> GetAccountForUpdateAsync(int accountId)
+        {
+            return await _dbContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

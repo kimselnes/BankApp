@@ -17,6 +17,11 @@
     }
 </p>
 
+<p>
+    <a asp-action="Withdraw" asp-route-id="@Model.Account.AccountId" class="btn btn-warning">Ta ut</a>
+    <a asp-action="Deposit" asp-route-id="@Model.Account.AccountId" class="btn btn-success">Sätt in</a>
+</p>
+
 <table class="table" id="transactionTable">
     <thead>
         <tr>
@@ -31,7 +36,7 @@
         </tr>
     </thead>
     <tbody id="transactionBody" data-account-id="@Model.Account.AccountId">
-        <partial name="_TransactionRows" model="Model.Transactions.Items" />
+        <partial name="_TransactionRows" model="Model.Transactions.Items" />        
     </tbody>
 </table>
 

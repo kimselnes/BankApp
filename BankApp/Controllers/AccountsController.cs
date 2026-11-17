@@ -1,8 +1,11 @@
 ﻿using BankApp.Services.Interfaces;
+using BankApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers
 {
+    [Authorize(Roles = "Admin, Cashier")]
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
@@ -44,6 +47,57 @@ namespace BankApp.Controllers
             Response.Headers["X-Has-Next"] = transactions.HasNext.ToString().ToLowerInvariant();
 
             return PartialView("_TransactionRows", transactions.Items);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Withdraw(int id)
+        {
+            var account = await _accountService.GetAccountAsync(id);
+
+            if (account == null)
+            {
+                TempData["Error"] = $"Det finns inget konto med kontonummer {id}";
+                return RedirectToAction(nameof(Index)); // Ska den verkligen till index? Kanske details?
+            }
+
+            return View(new WithdrawViewModel
+            {
+                AccountId = account.AccountId,
+                Balance = account.Balance
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Withdraw(WithdrawViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var accountForView = await _accountService.GetAccountAsync(model.AccountId);
+                if (accountForView != null)
+                {
+                    model.Balance = accountForView.Balance;
+                }
+
+                return View(model);
+            }
+
+            var result = await _accountService.WithdrawAsync(model.AccountId, model.Amount);
+
+            if (result.Success)
+            {
+                TempData["Success"] = $"Uttaget på {model.Amount:N2} kr genomfördes";
+                return RedirectToAction(nameof(Details), new { id = model.AccountId });
+            }
+
+            ModelState.AddModelError(nameof(model.Amount), result.Message);
+
+            var account = await _accountService.GetAccountAsync(model.AccountId);
+            if (account != null)
+            {
+                model.Balance = account.Balance;
+            }
+
+            return View(model);
         }
     }
 }
