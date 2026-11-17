@@ -2,14 +2,14 @@
 
 @foreach (var transaction in Model)
 {
-	<tr>
-		<td>@transaction.Date.ToString("yyyy-MM-dd")</td>
-		<td>@transaction.Type</td>
-		<td>@transaction.Operation</td>
-		<td>@transaction.Amount.ToString("N2")</td>
-		<td>@transaction.BalanceAfterTransaction.ToString("N2")</td>
-		<td>@transaction.Symbol</td>
-		<td>@transaction.Bank</td>
-		<td>@transaction.RecipientAccountNumber</td>
-	</tr>
+    <tr>
+        <td>@transaction.Date.ToString("yyyy-MM-dd")</td>
+        <td>@transaction.Type</td>
+        <td>@transaction.Operation</td>
+        <td>@transaction.Amount.ToString("N2")</td>
+        <td>@transaction.BalanceAfterTransaction.ToString("N2")</td>
+        <td>@transaction.Symbol</td>
+        <td>@transaction.Bank</td>
+        <td>@transaction.RecipientAccountNumber</td>
+    </tr>
 }

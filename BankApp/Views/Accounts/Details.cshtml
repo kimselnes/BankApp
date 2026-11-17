@@ -30,7 +30,7 @@
             <th>Konto</th>
         </tr>
     </thead>
-    <tbody id="transactionBody">
+    <tbody id="transactionBody" data-account-id="@Model.Account.AccountId">
         <partial name="_TransactionRows" model="Model.Transactions.Items" />
     </tbody>
 </table>
@@ -42,4 +42,8 @@
             data-page-no="@(Model.Transactions.PageNo + 1)">
         Visa fler
     </button>
+}
+
+@section Scripts {
+    <script src="~/js/accountTransactions.js" asp-append-version="true"></script>
 }

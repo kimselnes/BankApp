@@ -37,7 +37,7 @@ namespace BankApp.Data.Repositories
             var query = _dbContext.Transactions
                 .Where(t => t.AccountId == accountId)
                 .OrderByDescending(t => t.Date)
-                .ThenByDescending(t => t.TransactionId); //Avoid placement issues when paging.
+                .ThenByDescending(t => t.TransactionId); //Avoid placement issues when paging. (Also ensures better sorting in the list, not perfect though.)
 
             var totalCount = await query.CountAsync();
 

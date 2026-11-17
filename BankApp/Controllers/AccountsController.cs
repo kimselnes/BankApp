@@ -35,5 +35,15 @@ namespace BankApp.Controllers
                 Transactions = transactions
             });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTransactions(int id, int pageNo)
+        {
+            var transactions = await _accountService.GetTransactionsAsync(id, pageNo);
+
+            Response.Headers["X-Has-Next"] = transactions.HasNext.ToString().ToLowerInvariant();
+
+            return PartialView("_TransactionRows", transactions.Items);
+        }
     }
 }
