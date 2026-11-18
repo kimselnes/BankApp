@@ -15,10 +15,10 @@ namespace BankApp.Controllers
         }
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public async Task<IActionResult> Details(int id, int pageNo = 1)
         {
@@ -27,12 +27,12 @@ namespace BankApp.Controllers
             if (accountDto == null)
             {
                 TempData["Error"] = $"Det finns inget konto med kontonummer {id}.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
 
             var transactions = await _accountService.GetTransactionsAsync(id, pageNo);
 
-            return View(new ViewModels.AccountDetailsViewModel
+            return View(new AccountDetailsViewModel
             {
                 Account = accountDto,
                 Transactions = transactions
@@ -57,7 +57,8 @@ namespace BankApp.Controllers
             if (account == null)
             {
                 TempData["Error"] = $"Det finns inget konto med kontonummer {id}";
-                return RedirectToAction(nameof(Index)); // Ska den verkligen till index? Kanske details?
+                return RedirectToAction("Index", "Customers"); // Ska den verkligen till index? Kanske details?
+                //return RedirectToAction(nameof(Index));
             }
 
             return View(new WithdrawViewModel
@@ -86,6 +87,57 @@ namespace BankApp.Controllers
             if (result.Success)
             {
                 TempData["Success"] = $"Uttaget på {model.Amount:N2} kr genomfördes";
+                return RedirectToAction(nameof(Details), new { id = model.AccountId });
+            }
+
+            ModelState.AddModelError(nameof(model.Amount), result.Message);
+
+            var account = await _accountService.GetAccountAsync(model.AccountId);
+            if (account != null)
+            {
+                model.Balance = account.Balance;
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Deposit(int id)
+        {
+            var account = await _accountService.GetAccountAsync(id);
+
+            if (account == null)
+            {
+                TempData["Error"] = $"Det finns inget konto med kontonummer {id}";
+                return RedirectToAction("Index", "Customers");
+            }
+
+            return View(new DepositViewModel
+            {
+                AccountId = account.AccountId,
+                Balance = account.Balance
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Deposit(DepositViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var accountForView = await _accountService.GetAccountAsync(model.AccountId);
+                if (accountForView != null)
+                {
+                    model.Balance = accountForView.Balance;
+                }
+
+                return View(model);
+            }
+
+            var result = await _accountService.DepositAsync(model.AccountId, model.Amount);
+
+            if (result.Success)
+            {
+                TempData["Success"] = $"Insättningen på {model.Amount:N2} kr genomfördes";
                 return RedirectToAction(nameof(Details), new { id = model.AccountId });
             }
 

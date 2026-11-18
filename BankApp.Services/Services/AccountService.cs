@@ -54,13 +54,44 @@ namespace BankApp.Services.Services
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 Type = "Debit",
                 Operation = "Withdrawal in Cash",
-                Amount = amount,
+                Amount = -amount,
                 Balance = account.Balance,
             });
 
             await _accountRepository.SaveChangesAsync();
 
             return TransactionResult.Ok(); // Success() istället?!
+        }
+
+        public async Task<TransactionResult> DepositAsync(int accountId, decimal amount)
+        {
+            var account = await _accountRepository.GetAccountForUpdateAsync(accountId);
+
+            if (account == null)
+            {
+                return TransactionResult.Fail(TransactionError.AccountNotFound, "Kontot hittades inte.");
+            }
+
+            if (amount <= 0)
+            {
+                return TransactionResult.Fail(TransactionError.IncorrectAmount, "Ange ett belopp större än 0 kr.");
+            }
+
+            account.Balance += amount;
+
+            _accountRepository.AddTransaction(new Transaction
+            {
+                AccountId = account.AccountId,
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                Type = "Credit",
+                Operation = "Credit in Cash",
+                Amount = amount,
+                Balance = account.Balance,
+            });
+
+            await _accountRepository.SaveChangesAsync();
+
+            return TransactionResult.Ok();
         }
     }
 }
