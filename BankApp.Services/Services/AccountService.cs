@@ -93,5 +93,62 @@ namespace BankApp.Services.Services
 
             return TransactionResult.Ok();
         }
+
+        public async Task<TransactionResult> TransferAsync(int fromAccountId, int toAccountId, decimal amount)
+        {
+            if (fromAccountId == toAccountId)
+            {
+                return TransactionResult.Fail(TransactionError.SameAccount, "Källkontot och målkontot är samma konto.");
+            }
+
+            if (amount <= 0)
+            {
+                return TransactionResult.Fail(TransactionError.IncorrectAmount, "Ange ett belopp större än 0 kr.");
+            }
+
+            var from = await _accountRepository.GetAccountForUpdateAsync(fromAccountId);
+            if (from == null)
+            {
+                return TransactionResult.Fail(TransactionError.AccountNotFound, "Källkontot finns inte");
+            }
+
+            var to = await _accountRepository.GetAccountForUpdateAsync(toAccountId);
+            if (to == null)
+            {
+                return TransactionResult.Fail(TransactionError.AccountNotFound, "Mottagarkontot finns inte");
+            }
+
+            if (amount > from.Balance)
+            {
+                return TransactionResult.Fail(TransactionError.BalanceTooLow, $"Källkontot har bara {from.Balance:N2} kr. Överföringen går inte igenom.");
+            }
+
+            from.Balance -= amount;
+            to.Balance += amount;
+
+            _accountRepository.AddTransaction(new Transaction
+            {
+                AccountId = from.AccountId,
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                Type = "Debit",
+                Operation = $"Transfer",
+                Amount = -amount,
+                Balance = from.Balance,
+            });
+
+            _accountRepository.AddTransaction(new Transaction
+            {
+                AccountId = to.AccountId,
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                Type = "Credit",
+                Operation = $"Transfer",
+                Amount = amount,
+                Balance = to.Balance,
+            });
+
+            await _accountRepository.SaveChangesAsync();
+
+            return TransactionResult.Ok();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BankApp.Services.Interfaces;
+﻿using BankApp.Data.Models;
+using BankApp.Services.Interfaces;
 using BankApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -144,6 +145,62 @@ namespace BankApp.Controllers
             ModelState.AddModelError(nameof(model.Amount), result.Message);
 
             var account = await _accountService.GetAccountAsync(model.AccountId);
+            if (account != null)
+            {
+                model.Balance = account.Balance;
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Transfer(int id)
+        {
+            var account = await _accountService.GetAccountAsync(id);
+
+            if (account == null)
+            {
+                TempData["Error"] = $"Det finns inget konto med kontonummer {id}";
+                return RedirectToAction("Index", "Customers");
+            }
+
+            return View(new TransferViewModel
+            {
+                FromAccountId = account.AccountId,
+                Balance = account.Balance
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Transfer(TransferViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var accountForView = await _accountService.GetAccountAsync(model.FromAccountId);
+                if (accountForView != null)
+                {
+                    model.Balance = accountForView.Balance;
+                }
+
+                return View(model);
+            }
+
+            var result = await _accountService.TransferAsync(model.FromAccountId, model.ToAccountId, model.Amount);
+
+            if (result.Success)
+            {
+                TempData["Success"] = $"Överföringen på {model.Amount:N2} kr genomfördes";
+                return RedirectToAction(nameof(Details), new { id = model.FromAccountId });
+            }
+
+            var field = result.Error == TransactionError.BalanceTooLow
+                ? nameof(model.Amount)
+                : nameof(model.ToAccountId);
+
+            ModelState.AddModelError(field, result.Message);
+            //ModelState.AddModelError(nameof(model.Amount), result.Message);
+
+            var account = await _accountService.GetAccountAsync(model.FromAccountId);
             if (account != null)
             {
                 model.Balance = account.Balance;

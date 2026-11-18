@@ -10,5 +10,6 @@ namespace BankApp.Services.Interfaces
 
         Task<TransactionResult> WithdrawAsync(int accountId, decimal amount);
         Task<TransactionResult> DepositAsync(int accountId, decimal amount);
+        Task<TransactionResult> TransferAsync(int fromAccountId, int toAccountId, decimal amount);
     }
 }

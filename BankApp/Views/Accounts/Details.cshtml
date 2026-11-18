@@ -20,6 +20,7 @@
 <p>
     <a asp-action="Withdraw" asp-route-id="@Model.Account.AccountId" class="btn btn-warning">Ta ut</a>
     <a asp-action="Deposit" asp-route-id="@Model.Account.AccountId" class="btn btn-success">Sätt in</a>
+    <a asp-action="Transfer" asp-route-id="@Model.Account.AccountId" class="btn btn-info">Överför</a>
 </p>
 
 <table class="table" id="transactionTable">
