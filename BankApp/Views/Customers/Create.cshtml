@@ -1,0 +1,101 @@
+﻿@model BankApp.ViewModels.NewCustomerViewModel
+
+@{
+	ViewData["Title"] = "Ny kund";
+}
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<h1>Ny kund</h1>
+
+<form method="post" asp-action="Create">
+
+	<div class="form-group mb-3">
+        <label asp-for="Givenname"></label>
+        <input asp-for="Givenname" class="form-control" />
+        <span asp-validation-for="Givenname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Gender"></label>
+        <select asp-for="Gender" asp-items="@Model.GenderOptions" class="form-control">
+            <option value="">-- Välj kön --</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Streetaddress"></label>
+        <input asp-for="Streetaddress" class="form-control" />
+        <span asp-validation-for="Streetaddress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Zipcode"></label>
+        <input asp-for="Zipcode" class="form-control" />
+        <span asp-validation-for="Zipcode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="CountryCode"></label>
+        <input asp-for="CountryCode" class="form-control" />
+        <span asp-validation-for="CountryCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Birthday"></label>
+        <input asp-for="Birthday" class="form-control" />
+        <span asp-validation-for="Birthday" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="NationalId"></label>
+        <input asp-for="NationalId" class="form-control" />
+        <span asp-validation-for="NationalId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Telephonenumber"></label>
+        <input asp-for="Telephonenumber" class="form-control" />
+        <span asp-validation-for="Telephonenumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Emailaddress"></label>
+        <input asp-for="Emailaddress" class="form-control" />
+        <span asp-validation-for="Emailaddress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Frequency"></label>
+        <select asp-for="Frequency" asp-items="@Model.FrequencyOptions" class="form-control">
+            <option value="">-- Välj kontotyp --</option>
+        </select>
+        <span asp-validation-for="Frequency" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Skapa kund</button>
+    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+}

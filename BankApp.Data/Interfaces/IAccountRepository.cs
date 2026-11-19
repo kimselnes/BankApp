@@ -12,5 +12,7 @@ namespace BankApp.Data.Interfaces
         Task<Account?> GetAccountForUpdateAsync(int accountId);
         void AddTransaction(Transaction transaction);
         Task SaveChangesAsync();
+        void AddAccount(Account account);
+
     }
 }

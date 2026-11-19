@@ -16,7 +16,10 @@ namespace BankApp.Data.Repositories
             _dbContext = dbContext;
         }
 
-
+        public void AddAccount(Account account)
+        {
+            _dbContext.Accounts.Add(account);
+        }
 
         public async Task<AccountWithOwnersDto?> GetAccountWithOwnersAsync(int accountId)
         {

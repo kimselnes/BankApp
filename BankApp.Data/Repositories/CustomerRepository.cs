@@ -16,6 +16,18 @@ namespace BankApp.Data.Repositories
             _dbContext = dbContext;
         }
 
+        
+
+        public void AddCustomer(Customer customer)
+        {
+            _dbContext.Customers.Add(customer);
+        }
+
+        public async Task<Customer?> GetCustomerForUpdateAsync(int customerId)
+        {
+            return await _dbContext.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId);
+        }
+
         public async Task<CustomerDetailsDto?> GetDetailsAsync(int customerId)
         {
             return await _dbContext.Customers
@@ -40,6 +52,11 @@ namespace BankApp.Data.Repositories
                         d.Account.Frequency,
                         d.Account.Created)).ToList()))
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<PagedResult<CustomerSummaryDto>> SearchAsync(string? name, string? city, int pageNo, int pageSize, string sortOrder, string sortColumn)
