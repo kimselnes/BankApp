@@ -6,6 +6,8 @@
 <h1>@Model.Customer.Givenname @Model.Customer.Surname</h1>
 <p class="text-muted">Kundnummer: @Model.Customer.CustomerId</p>
 
+<a asp-action="Edit" asp-route-id="@Model.Customer.CustomerId" class="btn btn-warning">Ändra</a>
+
 <h2>Kundinformation</h2>
 <dl class="row">
     <dt class="col-sm-3">Personnummer</dt>

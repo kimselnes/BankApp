@@ -1,8 +1,5 @@
 ﻿using BankApp.Data.DTOs;
 using BankApp.Data.Models;
-//using System;
-//using System.Collections.Generic;
-//using System.Text;
 
 namespace BankApp.Services.Interfaces
 {
@@ -14,5 +11,6 @@ namespace BankApp.Services.Interfaces
 
         //Task<TransactionResult> AddCustomerAsync(CustomerDetailsDto customerDetailsDto);
         Task CreateCustomerAsync(NewCustomerDto dto);
+        Task UpdateCustomerAsync(int customerId, EditCustomerDto dto);
     }
 }

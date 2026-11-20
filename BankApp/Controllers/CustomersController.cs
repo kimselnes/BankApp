@@ -108,5 +108,86 @@ namespace BankApp.Controllers
                 })
                 .ToList();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var customerDto = await _customerService.GetCustomerDetailsDtoAsync(id); // Ska man kanske göra ny DTO och Service-metod?
+
+            if (customerDto == null)
+            {
+                TempData["Error"] = $"Det finns ingen kund med kundnummer {id}.";
+            }
+
+            var model = new EditCustomerViewModel
+            {
+                CustomerId = customerDto.CustomerId,
+                Givenname = customerDto.Givenname,
+                Surname = customerDto.Surname,
+                Gender = customerDto.Gender,
+                Streetaddress = customerDto.Streetaddress,
+                City = customerDto.City,
+                Zipcode = customerDto.Zipcode,
+                Country = customerDto.Country,
+                CountryCode = customerDto.CountryCode,
+                Birthday = customerDto.Birthday,
+                NationalId = customerDto.NationalId,
+                Telephonenumber = customerDto.Telephonenumber,
+                Emailaddress = customerDto.Emailaddress
+            };
+
+            FillGenderOptions(model);
+
+            return View(model);
+        }        
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCustomerViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                FillGenderOptions(model);
+                return View(model);
+            }
+
+            var dto = new EditCustomerDto
+            (
+                model.Gender,
+                model.Givenname,
+                model.Surname,
+                model.Streetaddress,
+                model.City,
+                model.Zipcode,
+                model.Country,
+                model.CountryCode,
+                model.Birthday,
+                model.NationalId,
+                model.Telephonenumber,
+                model.Emailaddress
+            );
+
+            try
+            {
+                await _customerService.UpdateCustomerAsync(model.CustomerId, dto);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["Error"] = $"Kunden {model.CustomerId} finns inte längre.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["Success"] = $"Kunden {model.Givenname} {model.Surname} uppdaterades";
+
+            return RedirectToAction(nameof(Details), new { id = model.CustomerId });
+        }
+
+        private void FillGenderOptions(EditCustomerViewModel model)
+        {
+            model.GenderOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "male", Text = "Man" },
+                new SelectListItem { Value = "female", Text = "Kvinna" },
+            };
+        }
     }
 }
