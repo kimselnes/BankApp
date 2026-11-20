@@ -34,6 +34,7 @@ namespace BankApp.Data
         private static async Task CreateUserAsync(UserManager<IdentityUser> userManager, string email, string password, string role)
         {
             var user = await userManager.FindByEmailAsync(email);
+
             if (user == null)
             {
                 user = new IdentityUser
@@ -49,9 +50,14 @@ namespace BankApp.Data
                     throw new InvalidOperationException($"Kunde inte skapa {email}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
                 }
 
-                if (!await userManager.IsInRoleAsync(user, role))
+            }
+
+            if (!await userManager.IsInRoleAsync(user, role))
+            {
+                var roleResult = await userManager.AddToRoleAsync(user, role);
+                if (!roleResult.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, role);
+                    throw new InvalidOperationException($"Kunde inte ge {email} rollen {role}: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
                 }
             }
 

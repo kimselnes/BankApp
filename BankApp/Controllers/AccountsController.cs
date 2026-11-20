@@ -16,11 +16,6 @@ namespace BankApp.Controllers
         }
 
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public async Task<IActionResult> Details(int id, int pageNo = 1)
         {
             var accountDto = await _accountService.GetAccountAsync(id);
