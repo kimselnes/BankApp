@@ -42,7 +42,7 @@ namespace BankApp.Controllers
         public IActionResult Create()
         {
             var model = new CreateUserViewModel();
-            FillRoleOptions(model);
+            model.RoleOptions = GetRoleOptions();
 
             return View(model);
         }
@@ -52,7 +52,7 @@ namespace BankApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                FillRoleOptions(model);
+                model.RoleOptions = GetRoleOptions();
                 return View(model);
             }
 
@@ -66,24 +66,17 @@ namespace BankApp.Controllers
             var createResult = await _userManager.CreateAsync(user, model.Password);
             if (!createResult.Succeeded)
             {
-                foreach (var error in createResult.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                AddError(createResult);
 
-                FillRoleOptions(model);
+                model.RoleOptions = GetRoleOptions();
                 return View(model);
             }
 
             var roleResult = await _userManager.AddToRoleAsync(user, model.Role);
             if (!roleResult.Succeeded)
             {
-                foreach (var error in roleResult.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
-                FillRoleOptions(model);
+                AddError(roleResult);
+                model.RoleOptions = GetRoleOptions();
                 return View(model);
             }
 
@@ -94,14 +87,159 @@ namespace BankApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private void FillRoleOptions(CreateUserViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
         {
-            model.RoleOptions = _roleManager.Roles
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                TempData["Error"] = "Användaren kunde inte hittas.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var model = new EditUserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email ?? user.UserName ?? "(okänd)",
+                Role = roles.FirstOrDefault() ?? string.Empty
+            };
+
+            model.RoleOptions = GetRoleOptions();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.RoleOptions = GetRoleOptions();
+
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                TempData["Error"] = "Användaren finns inte längre.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            var toRemove = currentRoles.Where(r => r != model.Role).ToList();
+            if (toRemove.Count > 0)
+            {
+                var removeResult = await _userManager.RemoveFromRolesAsync(user, toRemove);
+                if (!removeResult.Succeeded)
+                {
+                    AddError(removeResult);
+                    model.RoleOptions = GetRoleOptions();
+                    return View(model);
+                }
+            }
+
+            if (!currentRoles.Contains(model.Role))
+            {
+                var addResult = await _userManager.AddToRoleAsync(user, model.Role);
+                if (!addResult.Succeeded)
+                {
+                    AddError(addResult);
+                    model.RoleOptions = GetRoleOptions();
+                    return View(model);
+                }
+            }
+
+            TempData["Success"] = $"Användaren {model.Email} uppdaterades.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["Error"] = "Användaren kunde inte hittas.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var model = new DeleteUserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email ?? user.UserName ?? "(okänd)",
+                Roles = (await _userManager.GetRolesAsync(user)).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                TempData["Error"] = "Användaren finns inte längre.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (user.Id == _userManager.GetUserId(User))
+            {
+                TempData["Error"] = "Du kan inte ta bort ditt eget konto.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                AddError(result);
+                return RedirectToAction(nameof(Index));
+                //return View("Delete", new DeleteUserViewModel
+                //{
+                //    Id = user.Id,
+                //    Email = user.Email ?? user.UserName ?? "(okänd)",
+                //    Roles = (await _userManager.GetRolesAsync(user)).ToList()
+                //});
+            }
+
+            TempData["Success"] = $"Användaren {user.Email} togs bort.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        private void AddError(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private List<SelectListItem> GetRoleOptions()
+        {
+            return _roleManager.Roles
                 .Select(r => new SelectListItem
                 {
                     Value = r.Name,
                     Text = r.Name
                 }).ToList();
         }
+
+        //private void FillRoleOptions(CreateUserViewModel model)
+        //{
+        //    model.RoleOptions = _roleManager.Roles
+        //        .Select(r => new SelectListItem
+        //        {
+        //            Value = r.Name,
+        //            Text = r.Name
+        //        }).ToList();
+        //}
     }
 }

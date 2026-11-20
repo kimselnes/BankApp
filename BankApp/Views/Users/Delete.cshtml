@@ -1,0 +1,11 @@
+﻿@model BankApp.ViewModels.DeleteUserViewModel
+
+<h1>Ta bort användare</h1>
+
+<p>Vill du ta bort <strong>@Model.Email</strong> (@string.Join(", ", Model.Roles))?</p>
+
+<form method="post" asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Ta bort</button>
+    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+</form>
