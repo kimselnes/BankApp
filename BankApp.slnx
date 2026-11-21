@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="BankApp.Data/BankApp.Data.csproj" Id="a8344fbe-a307-40c3-b869-641a69461fee" />
   <Project Path="BankApp.Services/BankApp.Services.csproj" Id="167c6c5e-2bd4-4d5e-a422-19c75bfbfd61" />
+  <Project Path="BankApp.SuspiciousTransactions/BankApp.SuspiciousTransactions.csproj" Id="f55cb6c7-e780-4824-a38a-2956174fad85" />
   <Project Path="BankApp/BankApp.csproj" />
 </Solution>
