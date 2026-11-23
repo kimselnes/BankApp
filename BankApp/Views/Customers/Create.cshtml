@@ -50,14 +50,10 @@
 
     <div class="form-group mb-3">
         <label asp-for="Country"></label>
-        <input asp-for="Country" class="form-control" />
+        <select asp-for="Country" asp-items="@Model.CountryOptions" class="form-control">
+            <option value="">-- Välj land --</option>
+        </select>
         <span asp-validation-for="Country" class="text-danger"></span>
-    </div>
-
-    <div class="form-group mb-3">
-        <label asp-for="CountryCode"></label>
-        <input asp-for="CountryCode" class="form-control" />
-        <span asp-validation-for="CountryCode" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">

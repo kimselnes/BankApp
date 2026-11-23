@@ -18,6 +18,21 @@ namespace BankApp.Controllers
             _customerService = customerService;
         }
 
+        private static readonly Dictionary<string, string> NordicCountries = new()
+        {
+            { "Sweden", "SE" },
+            { "Denmark", "DK" },
+            { "Finland", "FI" },
+            { "Norway", "NO" }
+        };
+        private List<SelectListItem> GetCountryOptions()
+        {
+            return NordicCountries
+                .Select(c => new SelectListItem { Value = c.Key, Text = c.Key })
+                .ToList();
+        }
+
+
 
         public async Task<IActionResult> Index(string? name, string? city, string sortColumn, string sortOrder, int pageNo = 1)
         {
@@ -69,6 +84,8 @@ namespace BankApp.Controllers
                 return View(model);
             }
 
+            var countryCode = NordicCountries[model.Country];
+
             var dto = new NewCustomerDto
             (
                 model.Gender, 
@@ -78,7 +95,7 @@ namespace BankApp.Controllers
                 model.City, 
                 model.Zipcode, 
                 model.Country, 
-                model.CountryCode,
+                countryCode,
                 model.Birthday, 
                 model.NationalId, 
                 model.Telephonenumber,
@@ -90,24 +107,7 @@ namespace BankApp.Controllers
 
             TempData["Success"] = $"Kunden {model.Givenname} {model.Surname} skapades";
             return RedirectToAction(nameof(Index));
-        }
-
-        private void FillDropDowns(NewCustomerViewModel model)
-        {
-            model.GenderOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "male", Text = "Man" },
-                new SelectListItem { Value = "female", Text = "Kvinna" },
-            };
-
-            model.FrequencyOptions = Enum.GetValues<AccountFrequency>()
-                .Select(f => new SelectListItem
-                {
-                    Value = f.ToString(),
-                    Text = f.ToString()
-                })
-                .ToList();
-        }
+        }        
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -129,14 +129,14 @@ namespace BankApp.Controllers
                 City = customerDto.City,
                 Zipcode = customerDto.Zipcode,
                 Country = customerDto.Country,
-                CountryCode = customerDto.CountryCode,
+                //CountryCode = customerDto.CountryCode,
                 Birthday = customerDto.Birthday,
                 NationalId = customerDto.NationalId,
                 Telephonenumber = customerDto.Telephonenumber,
                 Emailaddress = customerDto.Emailaddress
             };
 
-            FillGenderOptions(model);
+            FillDropDowns(model);
 
             return View(model);
         }        
@@ -146,9 +146,11 @@ namespace BankApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                FillGenderOptions(model);
+                FillDropDowns(model);
                 return View(model);
             }
+
+            var countryCode = NordicCountries[model.Country];
 
             var dto = new EditCustomerDto
             (
@@ -159,7 +161,7 @@ namespace BankApp.Controllers
                 model.City,
                 model.Zipcode,
                 model.Country,
-                model.CountryCode,
+                countryCode,
                 model.Birthday,
                 model.NationalId,
                 model.Telephonenumber,
@@ -181,13 +183,34 @@ namespace BankApp.Controllers
             return RedirectToAction(nameof(Details), new { id = model.CustomerId });
         }
 
-        private void FillGenderOptions(EditCustomerViewModel model)
+        private void FillDropDowns(NewCustomerViewModel model)
         {
             model.GenderOptions = new List<SelectListItem>
             {
                 new SelectListItem { Value = "male", Text = "Man" },
                 new SelectListItem { Value = "female", Text = "Kvinna" },
             };
+
+            model.FrequencyOptions = Enum.GetValues<AccountFrequency>()
+                .Select(f => new SelectListItem
+                {
+                    Value = f.ToString(),
+                    Text = f.ToString()
+                })
+                .ToList();
+
+            model.CountryOptions = GetCountryOptions();
+        }
+
+        private void FillDropDowns(EditCustomerViewModel model)
+        {
+            model.GenderOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "male", Text = "Man" },
+                new SelectListItem { Value = "female", Text = "Kvinna" },
+            };
+
+            model.CountryOptions = GetCountryOptions();
         }
     }
 }

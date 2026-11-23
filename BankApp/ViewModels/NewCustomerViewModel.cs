@@ -37,14 +37,13 @@ namespace BankApp.ViewModels
         public string Zipcode { get; set; }
 
         [Required(ErrorMessage = "Ange land.")]
-        [MaxLength(100, ErrorMessage = "Land får inte vara längre än 100 tecken.")]
         [Display(Name = "Land")]
         public string Country { get; set; }
 
-        [Required(ErrorMessage = "Ange landskod.")]
-        [MaxLength(2, ErrorMessage = "Landskod får inte vara längre än 2 tecken.")]
-        [Display(Name = "Landskod")]
-        public string CountryCode { get; set; }
+        //[Required(ErrorMessage = "Ange landskod.")]
+        //[MaxLength(2, ErrorMessage = "Landskod får inte vara längre än 2 tecken.")]
+        //[Display(Name = "Landskod")]
+        //public string CountryCode { get; set; }
 
         [Display(Name = "Födelsedatum")]
         [DataType(DataType.Date)]
@@ -69,5 +68,6 @@ namespace BankApp.ViewModels
 
         public List<SelectListItem> FrequencyOptions { get; set; } = new();
         public List<SelectListItem> GenderOptions { get; set; } = new();
+        public List<SelectListItem> CountryOptions { get; set; } = new();
     }
 }
