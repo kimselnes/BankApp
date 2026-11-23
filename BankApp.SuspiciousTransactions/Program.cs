@@ -44,7 +44,7 @@ namespace BankApp.SuspiciousTransactions
                 var service = scope.ServiceProvider.GetRequiredService<ISuspiciousTransactionService>();
 
                 var today = DateOnly.FromDateTime(DateTime.Now);
-                var fromDate = today.AddDays(1);
+                var fromDate = today.AddDays(-3);
 
                 var lastTransactionId = writer.ReadLastTransactionId();
 
