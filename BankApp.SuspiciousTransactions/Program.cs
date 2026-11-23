@@ -44,7 +44,7 @@ namespace BankApp.SuspiciousTransactions
                 var service = scope.ServiceProvider.GetRequiredService<ISuspiciousTransactionService>();
 
                 var today = DateOnly.FromDateTime(DateTime.Now);
-                var fromDate = today.AddDays(-3);
+                var fromDate = today.AddDays(1);
 
                 var lastTransactionId = writer.ReadLastTransactionId();
 
@@ -62,45 +62,22 @@ namespace BankApp.SuspiciousTransactions
                     return;
                 }
 
-                var byCountry = rows.GroupBy(r => r.Country).OrderBy(g => g.Key);
+                var byCountry = rows
+                    .GroupBy(r => r.Country)
+                    .OrderBy(g => g.Key)
+                    .ToList();
 
-                var highestId = rows.Max(r => r.TransactionId);
+                writer.WriteReport(fromDate, today, byCountry);
+
+                var highestId = rows.Count > 0 ? rows.Max(r => r.TransactionId) : lastTransactionId; // Se till att det funkar även om listan är tom.
                 var newHighestId = Math.Max(lastTransactionId, highestId);
-
-                foreach (var group in byCountry)
-                {
-                    writer.WriteReport(group.Key, group.ToList());
-                    Console.WriteLine($"{group.Key}: {group.Count()} transaktioner -> {group.Key}.txt");
-                }
 
                 writer.SaveLastTransactionId(newHighestId);
 
+                Console.WriteLine($"Rapport skriven: {byCountry.Count} länder, {rows.Count} transaktioner.");
                 Console.WriteLine();
                 Console.WriteLine($"Klart. Högsta rapporterade transaktionsnummer: {newHighestId}");
                 Console.ReadLine();
-
-                //var db = scope.ServiceProvider.GetRequiredService<BankAppDataContext>();
-                //Console.WriteLine($"Ansluten. Antal konton: {await db.Accounts.CountAsync()}");
-                //Console.ReadLine();
-
-                // TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-                //var fromDate = DateOnly.FromDateTime(DateTime.Now).AddDays(-3);
-                //var service = scope.ServiceProvider.GetRequiredService<ISuspiciousTransactionService>();
-
-                //var rows = await service.GetSuspiciousTransactionsAsync(fromDate, 0);
-
-                //Console.WriteLine($"Rader totalt: {rows.Count}");
-                //Console.WriteLine($"Distinkta transaktionsnummer: {rows.Select(r => r.TransactionId).Distinct().Count()}");
-                //Console.WriteLine($"Länder: {string.Join(", ", rows.Select(r => r.Country).Distinct())}");
-
-                //foreach (var r in rows.Take(10))
-                //{
-                //    Console.WriteLine($"{r.TransactionId} | {r.AccountId} | {r.Date:yyyy-MM-dd} | {r.Amount:N2} | {r.CustomerName} | {r.Country} | {r.Rule}");
-                //}
-
-                //Console.ReadLine();
-
-                // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
             }
         }
     }

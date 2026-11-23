@@ -1,4 +1,3 @@
-using BankApp.Data.Data;
 using BankApp.Models;
 using BankApp.Services.Interfaces;
 using BankApp.ViewModels;
@@ -19,7 +18,7 @@ namespace BankApp.Controllers
         public async Task<IActionResult> Index()
         {
             var stats = await _statisticsService.GetStatisticsPerCountryAsync();
-            return View(new HomeIndexViewModel { Statistics = stats});
+            return View(new HomeIndexViewModel { Statistics = stats });
         }
 
         //public IActionResult Privacy()

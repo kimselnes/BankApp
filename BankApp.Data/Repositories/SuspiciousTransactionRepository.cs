@@ -55,7 +55,7 @@ namespace BankApp.Data.Repositories
                     r.Amount,
                     r.Type,
                     r.Operation,
-                    "Ensklild transaktion > 15 000 kr"))
+                    "Enskild transaktion > 15 000 kr"))
                 .ToList();
         }
 
