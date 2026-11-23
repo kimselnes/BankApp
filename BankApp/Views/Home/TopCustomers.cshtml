@@ -1,0 +1,35 @@
+﻿@model BankApp.ViewModels.CountryTopCustomersViewModel
+
+@{
+    ViewData["Title"] = $"Topp 10 - {Model.Country}";
+}
+
+<h1>Topp 10 kunder i @Model.Country</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kundnummer</th>
+            <th>Namn</th>
+            <th>Totalt saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model.Customers)
+        {
+            <tr>
+                <td>@c.CustomerId</td>
+                <td>
+                    <a asp-controller="Customers" asp-action="Details" asp-route-id="@c.CustomerId">
+                        @c.Givenname @c.Surname
+                    </a>
+                </td>
+                <td>@c.TotalBalance.ToString("N2") kr</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index">Tillbaka till startsidan</a>
+</p>

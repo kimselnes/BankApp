@@ -1,4 +1,5 @@
 ﻿@model BankApp.ViewModels.HomeIndexViewModel
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -18,7 +19,7 @@
         @foreach (var row in Model.Statistics)
         {
             <tr>
-                <td>@row.Country</td>
+                <td><a asp-controller="Home" asp-action="TopCustomers" asp-route-country="@row.Country">@row.Country</a></td>
                 <td>@row.CustomerCount</td>
                 <td>@row.AccountCount</td>
                 <td class="text-end">@row.TotalBalance.ToString("N2")</td>

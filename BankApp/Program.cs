@@ -30,6 +30,7 @@ namespace BankApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddResponseCaching();
 
             // Containers, DI
             builder.Services.AddScoped<IStatisticsService, StatisticsService>();
@@ -68,6 +69,8 @@ namespace BankApp
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseResponseCaching();
 
             app.UseAuthorization();
 

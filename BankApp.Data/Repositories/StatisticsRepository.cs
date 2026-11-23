@@ -2,9 +2,6 @@
 using BankApp.Data.DTOs;
 using BankApp.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-//using System;
-//using System.Collections.Generic;
-//using System.Text;
 
 namespace BankApp.Data.Repositories
 {
@@ -12,7 +9,9 @@ namespace BankApp.Data.Repositories
     {
         private readonly BankAppDataContext _dbContext;
         public StatisticsRepository(BankAppDataContext dbContext)
-            => _dbContext = dbContext;
+        {
+            _dbContext = dbContext;
+        }
 
 
         public async Task<IList<CountryStatsDto>> GetCountryStatsAsync()
@@ -38,9 +37,29 @@ namespace BankApp.Data.Repositories
                 .ToList();
         }
 
-        //Task<IList<CountryStatsDto>> IStatisticsRepository.GetCountryStatsAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<IList<CountryTopCustomerDto>> GetTopCustomersByCountryAsync(string country, int take)
+        {
+            var rows = await _dbContext.Customers
+                .Where(c => c.Country == country)
+                .Select(c => new
+                {
+                    c.CustomerId,
+                    c.Givenname,
+                    c.Surname,
+                    TotalBalance = c.Dispositions.Sum(d => d.Account.Balance)
+                })
+                .ToListAsync();
+
+            return rows
+                .OrderByDescending(r => r.TotalBalance)
+                .ThenBy(r => r.CustomerId)
+                .Take(take)
+                .Select(r => new CountryTopCustomerDto(
+                    r.CustomerId,
+                    r.Givenname,
+                    r.Surname,
+                    r.TotalBalance
+                    )).ToList();
+        }
     }
 }
