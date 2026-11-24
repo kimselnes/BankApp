@@ -39,11 +39,6 @@ namespace BankApp
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-            //// Culture settings for the application, especially currency.
-            //var cultureInfo = new CultureInfo("sv-SE");
-            //CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            //CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
             var app = builder.Build();
 
             // Seeding av användare och roller.
