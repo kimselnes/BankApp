@@ -43,8 +43,18 @@
                     }
                 </ul>
 
-                <div class="ms-auto">
-                    <partial name="_LoginPartial" />
+                <div class="ms-auto order-md-end">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <span class="text-muted me-2">@User.Identity.Name</span>
+                        <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Logga ut</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-sm btn-primary">Logga in</a>
+                    }
                 </div>
 
             </div>
