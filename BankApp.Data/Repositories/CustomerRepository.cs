@@ -84,33 +84,88 @@ namespace BankApp.Data.Repositories
                 query = query.Where(c => c.City != null && c.City.Contains(ci));
             }
 
-            // Sortering
-            if (sortColumn == "CustomerId")
-            {
-                if (sortOrder == "desc")
-                {
-                    query = query.OrderByDescending(c => c.CustomerId);
-                }
-                else
-                {
-                    query = query.OrderBy(c => c.CustomerId);
 
-                }
-            }
-            else
+            bool descending = sortOrder == "desc";
+
+            switch (sortColumn)
             {
-                query = query
-                    .OrderBy(c => c.Surname)
-                    .ThenBy(c => c.Givenname)
-                    .ThenBy(c => c.CustomerId);
+                case "CustomerId":
+                    if (descending)
+                    {
+                        query = query.OrderByDescending(c => c.CustomerId);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.CustomerId);
+                    }
+                    break;
+
+                case "Surname":
+                    if (descending)
+                    {
+                        query = query.OrderByDescending(c => c.Surname)
+                                     .ThenByDescending(c => c.Givenname)
+                                     .ThenByDescending(c => c.CustomerId);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.Surname)
+                                     .ThenBy(c => c.Givenname)
+                                     .ThenBy(c => c.CustomerId);
+                    }
+                    break;
+
+                case "NationalId":
+                    if (descending)
+                    {
+                        query = query.OrderByDescending(c => c.NationalId)
+                                     .ThenByDescending(c => c.CustomerId);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.NationalId)
+                                     .ThenBy(c => c.CustomerId);
+                    }
+                    break;
+
+                case "Streetaddress":
+                    if (descending)
+                    {
+                        query = query.OrderByDescending(c => c.Streetaddress)
+                                     .ThenByDescending(c => c.CustomerId);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.Streetaddress)
+                                     .ThenBy(c => c.CustomerId);
+                    }
+                    break;
+
+                case "City":
+                    if (descending)
+                    {
+                        query = query.OrderByDescending(c => c.City)
+                                     .ThenByDescending(c => c.CustomerId);
+                    }
+                    else
+                    {
+                        query = query.OrderBy(c => c.City)
+                                     .ThenBy(c => c.CustomerId);
+                    }
+                    break;
+
+                default:
+                    // Standard: efternamn, förnamn, kundnummer.
+                    query = query
+                        .OrderBy(c => c.Surname)
+                        .ThenBy(c => c.Givenname)
+                        .ThenBy(c => c.CustomerId);
+                    break;
             }
 
             var totalCount = await query.CountAsync();
 
             var items = await query
-                //.OrderBy(c => c.Surname)
-                //.ThenBy(c => c.Givenname)
-                //.ThenBy(c => c.CustomerId)
                 .Skip((pageNo - 1) * pageSize)
                 .Take(pageSize)
                 .Select(c => new CustomerSummaryDto(
