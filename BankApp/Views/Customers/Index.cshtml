@@ -5,109 +5,129 @@
     ViewData["Title"] = "Kunder";
 }
 
-<h1>Kunder</h1>
+<h2 class="mb-3">Kunder</h2>
 
-<form asp-action="Index" method="get">
-    <input type="hidden" asp-for="SortColumn" />
-    <input type="hidden" asp-for="SortOrder" />
+<div class="card mb-3">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-2 align-items-end">
+            <input type="hidden" asp-for="SortColumn" />
+            <input type="hidden" asp-for="SortOrder" />
 
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="col-md-4">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="City" class="form-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">Sök</button>
+                <a asp-action="Index" class="btn btn-secondary">Rensa</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <span class="text-muted">@Model.Results.TotalCount kunder</span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="City"></label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Sök</button>
-    <a asp-action="Index" class="btn btn-secondary">Rensa</a>
-</form>
-
-<p>@Model.Results.TotalCount kunder</p>
-
-<table class="table">
-
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortColumn="CustomerId"
-                   asp-route-sortOrder="@(Model.SortColumn == "CustomerId" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                   asp-route-name="@Model.Name"
-                   asp-route-city="@Model.City"
-                   asp-route-pageNo="1">
-                    Kundnummer
+    <div class="table-responsive">
+        <table class="table table-hover table-vcenter card-table">
+            <thead>
+    <tr>
+        <th style="width: 130px;">
+            <a asp-action="Index"
+               asp-route-sortColumn="CustomerId"
+               asp-route-sortOrder="@(Model.SortColumn == "CustomerId" && Model.SortOrder == "asc" ? "desc" : "asc")"
+               asp-route-name="@Model.Name"
+               asp-route-city="@Model.City"
+               asp-route-pageNo="1">
+                Kundnummer
+                <span class="d-inline-block" style="width: 1rem;">
                     @(Model.SortColumn == "CustomerId" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortColumn="NationalId"
-                   asp-route-sortOrder="@(Model.SortColumn == "NationalId" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                   asp-route-name="@Model.Name"
-                   asp-route-city="@Model.City"
-                   asp-route-pageNo="1">
-                    Personnummer
+                </span>
+            </a>
+        </th>
+        <th style="width: 150px;">
+            <a asp-action="Index"
+               asp-route-sortColumn="NationalId"
+               asp-route-sortOrder="@(Model.SortColumn == "NationalId" && Model.SortOrder == "asc" ? "desc" : "asc")"
+               asp-route-name="@Model.Name"
+               asp-route-city="@Model.City"
+               asp-route-pageNo="1">
+                Personnummer
+                <span class="d-inline-block" style="width: 1rem;">
                     @(Model.SortColumn == "NationalId" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortColumn="Surname"
-                   asp-route-sortOrder="@(Model.SortColumn == "Surname" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                   asp-route-name="@Model.Name"
-                   asp-route-city="@Model.City"
-                   asp-route-pageNo="1">
-                    Namn
+                </span>
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortColumn="Surname"
+               asp-route-sortOrder="@(Model.SortColumn == "Surname" && Model.SortOrder == "asc" ? "desc" : "asc")"
+               asp-route-name="@Model.Name"
+               asp-route-city="@Model.City"
+               asp-route-pageNo="1">
+                Namn
+                <span class="d-inline-block" style="width: 1rem;">
                     @(Model.SortColumn == "Surname" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortColumn="Streetaddress"
-                   asp-route-sortOrder="@(Model.SortColumn == "Streetaddress" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                   asp-route-name="@Model.Name"
-                   asp-route-city="@Model.City"
-                   asp-route-pageNo="1">
-                    Adress
+                </span>
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortColumn="Streetaddress"
+               asp-route-sortOrder="@(Model.SortColumn == "Streetaddress" && Model.SortOrder == "asc" ? "desc" : "asc")"
+               asp-route-name="@Model.Name"
+               asp-route-city="@Model.City"
+               asp-route-pageNo="1">
+                Adress
+                <span class="d-inline-block" style="width: 1rem;">
                     @(Model.SortColumn == "Streetaddress" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortColumn="City"
-                   asp-route-sortOrder="@(Model.SortColumn == "City" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                   asp-route-name="@Model.Name"
-                   asp-route-city="@Model.City"
-                   asp-route-pageNo="1">
-                    Stad
+                </span>
+            </a>
+        </th>
+        <th style="width: 150px;">
+            <a asp-action="Index"
+               asp-route-sortColumn="City"
+               asp-route-sortOrder="@(Model.SortColumn == "City" && Model.SortOrder == "asc" ? "desc" : "asc")"
+               asp-route-name="@Model.Name"
+               asp-route-city="@Model.City"
+               asp-route-pageNo="1">
+                Stad
+                <span class="d-inline-block" style="width: 1rem;">
                     @(Model.SortColumn == "City" ? (Model.SortOrder == "asc" ? "▲" : "▼") : "")
-                </a>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var c in Model.Results.Items)
-        {
-            <tr>
-                <td>@c.CustomerId</td>
-                <td>@c.NationalId</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@c.CustomerId">
-                        @c.Givenname @c.Surname
-                    </a>
-                </td>
-                <td>@c.Streetaddress</td>
-                <td>@c.City</td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </span>
+            </a>
+        </th>
+    </tr>
+</thead>
+            <tbody>
+                @foreach (var c in Model.Results.Items)
+                {
+                    <tr>
+                        <td class="text-muted">@c.CustomerId</td>
+                        <td>@c.NationalId</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@c.CustomerId">
+                                @c.Givenname @c.Surname
+                            </a>
+                        </td>
+                        <td>@c.Streetaddress</td>
+                        <td>@c.City</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @if (Model.Results.PageCount > 1)
 {
@@ -118,10 +138,10 @@
     var start = Math.Max(2, pageNo - window);
     var end = Math.Min(pageCount - 1, pageNo + window);
 
-    <nav>
+    <nav class="d-flex align-items-center gap-1 mt-3">
         @if (pageNo > 1)
         {
-            <a class="btn btn-secondary"
+            <a class="btn btn-outline-secondary"
                asp-action="Index"
                asp-route-name="@Model.Name"
                asp-route-city="@Model.City"
@@ -130,7 +150,7 @@
                asp-route-pageNo="@(pageNo - 1)">Föregående</a>
         }
 
-        <a class="btn @(pageNo == 1 ? "btn-primary" : "btn-secondary")"
+        <a class="btn @(pageNo == 1 ? "btn-primary" : "btn-outline-secondary")"
            asp-action="Index"
            asp-route-name="@Model.Name"
            asp-route-city="@Model.City"
@@ -140,12 +160,12 @@
 
         @if (start > 2)
         {
-            <span>…</span>
+            <span class="text-muted">…</span>
         }
 
         @for (int i = start; i <= end; i++)
         {
-            <a class="btn @(pageNo == i ? "btn-primary" : "btn-secondary")"
+            <a class="btn @(pageNo == i ? "btn-primary" : "btn-outline-secondary")"
                asp-action="Index"
                asp-route-name="@Model.Name"
                asp-route-city="@Model.City"
@@ -156,10 +176,10 @@
 
         @if (end < pageCount - 1)
         {
-            <span>…</span>
+            <span class="text-muted">…</span>
         }
 
-        <a class="btn @(pageNo == pageCount ? "btn-primary" : "btn-secondary")"
+        <a class="btn @(pageNo == pageCount ? "btn-primary" : "btn-outline-secondary")"
            asp-action="Index"
            asp-route-name="@Model.Name"
            asp-route-city="@Model.City"
@@ -169,7 +189,7 @@
 
         @if (pageNo < pageCount)
         {
-            <a class="btn btn-secondary"
+            <a class="btn btn-outline-secondary"
                asp-action="Index"
                asp-route-name="@Model.Name"
                asp-route-city="@Model.City"

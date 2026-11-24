@@ -1,29 +1,38 @@
 ﻿@model BankApp.ViewModels.HomeIndexViewModel
-
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Statistik per land";
 }
 
-<h1>Statistik per land</h1>
+<h2 class="mb-1">Statistik per land</h2>
+<div class="text-muted mb-3">Antal kunder, konton och summan av saldon</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Land</th>
-            <th>Antal kunder</th>
-            <th>Antal konton</th>
-            <th class="text-end">Summa saldo</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var row in Model.Statistics)
-        {
-            <tr>
-                <td><a asp-controller="Home" asp-action="TopCustomers" asp-route-country="@row.Country">@row.Country</a></td>
-                <td>@row.CustomerCount</td>
-                <td>@row.AccountCount</td>
-                <td class="text-end">@row.TotalBalance.ToString("N2")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row row-deck row-cards">
+    @foreach (var row in Model.Statistics)
+    {
+        <div class="col-sm-6 col-lg-3">
+            <a class="card card-link" asp-action="TopCustomers" asp-route-country="@row.Country">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="avatar avatar-sm bg-blue-lt me-2">@row.Country.Substring(0, 2).ToUpper()</span>
+                        <div class="h3 mb-0">@row.Country</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-muted small">Kunder</div>
+                            <div class="h2 mb-0">@row.CustomerCount</div>
+                        </div>
+                        <div class="col">
+                            <div class="text-muted small">Konton</div>
+                            <div class="h2 mb-0">@row.AccountCount</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="text-muted small">Totalt saldo</div>
+                    <div class="h3 mb-0">@row.TotalBalance.ToString("N2") kr</div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
