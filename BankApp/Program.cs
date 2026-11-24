@@ -6,7 +6,6 @@ using BankApp.Services.Interfaces;
 using BankApp.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 namespace BankApp
 {
