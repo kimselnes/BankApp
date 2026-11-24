@@ -19,7 +19,6 @@ namespace BankApp.Data
                     {
                         throw new InvalidOperationException($"Kunde inte skapa rollen {role}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
                     }
-                    //await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
                 // Roberts users
