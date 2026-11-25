@@ -1,38 +1,4 @@
-﻿@* @model BankApp.ViewModels.WithdrawViewModel
-
-@{
-	ViewData["Title"] = "Uttag";
-}
-
-<h1>Uttag</h1>
-
-<div class="card mb-3">
-	<div class="card-body">
-		<p class="mb-1">Konto: <strong>@Model.AccountId</strong></p>
-		<p class="mb-0">Saldo: <strong>@Model.Balance.ToString("N2") kr</strong></p>
-	</div>
-</div>
-
-<form method="post" asp-action="Withdraw">
-
-	<input type="hidden" asp-for="AccountId"/>
-
-	<div class="form-group mb-3">
-		<label asp-for="Amount"></label>
-		<input asp-for="Amount" type="number" step="0.01" class="form-control" />
-		<span asp-validation-for="Amount" class="text-danger"></span>
-	</div>
-
-	<button type="submit" class="btn btn-primary">Acceptera</button>
-	<a asp-action="Details" asp-route-id="@Model.AccountId" class="btn btn-secondary">Avbryt</a>
-
-</form>
-
-@section Scripts{
-	<partial name="_ValidationScriptspartial" />
-} *@
-
-@model BankApp.ViewModels.WithdrawViewModel
+﻿@model BankApp.ViewModels.WithdrawViewModel
 
 @{
     ViewData["Title"] = "Uttag";

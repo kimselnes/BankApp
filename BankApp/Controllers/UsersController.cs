@@ -82,8 +82,6 @@ namespace BankApp.Controllers
 
             TempData["Success"] = $"Användaren {model.Email} skapades med rollen {model.Role}.";
 
-            //await _userManager.AddToRoleAsync(user, model.Role);
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -202,12 +200,6 @@ namespace BankApp.Controllers
             {
                 AddError(result);
                 return RedirectToAction(nameof(Index));
-                //return View("Delete", new DeleteUserViewModel
-                //{
-                //    Id = user.Id,
-                //    Email = user.Email ?? user.UserName ?? "(okänd)",
-                //    Roles = (await _userManager.GetRolesAsync(user)).ToList()
-                //});
             }
 
             TempData["Success"] = $"Användaren {user.Email} togs bort.";
@@ -231,15 +223,5 @@ namespace BankApp.Controllers
                     Text = r.Name
                 }).ToList();
         }
-
-        //private void FillRoleOptions(CreateUserViewModel model)
-        //{
-        //    model.RoleOptions = _roleManager.Roles
-        //        .Select(r => new SelectListItem
-        //        {
-        //            Value = r.Name,
-        //            Text = r.Name
-        //        }).ToList();
-        //}
     }
 }

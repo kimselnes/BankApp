@@ -1,46 +1,4 @@
-﻿@* @model BankApp.ViewModels.TransferViewModel
-
-@{
-	ViewData["Title"] = "Överföring";
-}
-
-<h1>Överföring</h1>
-
-<div class="card mb-3">
-	<div class="card-body">
-		<p class="mb-1">Från konto: <strong>@Model.FromAccountId</strong></p>
-		<p class="mb-0">Saldo: <strong>@Model.Balance.ToString("N2") kr</strong></p>
-	</div>
-</div>
-
-<form method="post" asp-action="Transfer">
-
-	<input type="hidden" asp-for="FromAccountId"/>
-
-	<div class="form-group mb-3">
-		<label asp-for="ToAccountId"></label>
-		<input asp-for="ToAccountId" class="form-control"></input>
-		<span asp-validation-for="ToAccountId" class="text-danger"></span>
-	</div>
-
-	<div class="form-group mb-3">
-		<label asp-for="Amount"></label>
-		<input asp-for="Amount" type="number" step="0.01" class="form-control" />
-		<span asp-validation-for="Amount" class="text-danger"></span>
-	</div>
-
-	<button type="submit" class="btn btn-primary">Acceptera</button>
-	<a asp-action="Details" asp-route-id="@Model.FromAccountId" class="btn btn-secondary">Avbryt</a>
-
-</form>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
-
- *@
-
-@model BankApp.ViewModels.TransferViewModel
+﻿@model BankApp.ViewModels.TransferViewModel
 
 @{
     ViewData["Title"] = "Överföring";

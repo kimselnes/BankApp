@@ -1,38 +1,4 @@
-﻿@* @model BankApp.ViewModels.EditUserViewModel
-
-@{
-	ViewData["Title"] = "Redigera användare";
-}
-
-<div asp-validation-summary="All" class="text-danger"></div>
-
-<h1>Redigera användare</h1>
-
-<form method="post" asp-action="Edit">
-
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="Email" />
-
-    <p>E-post: <strong>@Model.Email</strong></p>
-
-    <div class="form-group mb-3">
-        <label asp-for="Role"></label>
-        <select asp-for="Role" asp-items="@Model.RoleOptions" class="form-control">
-            <option value="">-- Välj roll --</option>
-        </select>
-        <span asp-validation-for="Role" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Spara</button>
-    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
-
-</form>
-
-@section Scripts {
-	<partial name="_ValidationScriptsPartial"></partial>
-} *@
-
-@model BankApp.ViewModels.EditUserViewModel
+﻿@model BankApp.ViewModels.EditUserViewModel
 
 @{
     ViewData["Title"] = "Ändra användare";

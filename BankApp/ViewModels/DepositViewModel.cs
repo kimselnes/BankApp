@@ -7,7 +7,7 @@ namespace BankApp.ViewModels
         public int AccountId { get; set; }
 
         [Display(Name = "Kontonummer")]
-        public int DisplayAccountId => AccountId; // Istället för att behöva skriva ut @Model.AccountId i vyn, kan vi använda DisplayAccountId för att visa kontonumret.
+        public int DisplayAccountId => AccountId; // Istället för att behöva skriva ut @Model.AccountId i vyn, kan man använda DisplayAccountId för att visa kontonumret.
 
         public decimal Balance { get; set; }
 

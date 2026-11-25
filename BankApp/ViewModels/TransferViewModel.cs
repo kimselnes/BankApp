@@ -9,7 +9,7 @@ namespace BankApp.ViewModels
         [Display(Name = "Från kontonummer")]
         public int DisplayFromAccountId => FromAccountId; // Istället för att behöva skriva ut @Model.FromAccountId i vyn, kan vi använda DisplayFromAccountId för att visa kontonumret.
 
-        public decimal Balance { get; set; } // Source/from account balance.
+        public decimal Balance { get; set; } // Source/från account balance.
 
 
         [Required(ErrorMessage = "Ange ett mottagarkonto.")]

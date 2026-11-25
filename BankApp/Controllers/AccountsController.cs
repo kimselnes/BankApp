@@ -53,8 +53,7 @@ namespace BankApp.Controllers
             if (account == null)
             {
                 TempData["Error"] = $"Det finns inget konto med kontonummer {id}";
-                return RedirectToAction("Index", "Customers"); // Ska den verkligen till index? Kanske details?
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
 
             return View(new WithdrawViewModel
@@ -193,7 +192,6 @@ namespace BankApp.Controllers
                 : nameof(model.ToAccountId);
 
             ModelState.AddModelError(field, result.Message);
-            //ModelState.AddModelError(nameof(model.Amount), result.Message);
 
             var account = await _accountService.GetAccountAsync(model.FromAccountId);
             if (account != null)
