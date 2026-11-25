@@ -28,7 +28,11 @@ namespace BankApp.Controllers
         private List<SelectListItem> GetCountryOptions()
         {
             return NordicCountries
-                .Select(c => new SelectListItem { Value = c.Key, Text = c.Key })
+                .Select(c => new SelectListItem 
+                { 
+                    Value = c.Key, 
+                    Text = c.Key 
+                })
                 .ToList();
         }
 
