@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Controllers
 {
-    [Authorize(Roles = "Admin, Cashier")]
+    [Authorize(Roles = "Cashier")]
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;

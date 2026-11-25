@@ -1,4 +1,4 @@
-﻿@model BankApp.ViewModels.CreateUserViewModel
+﻿@* @model BankApp.ViewModels.CreateUserViewModel
 
 @{
 	ViewData["Title"] = "Ny användare";
@@ -43,4 +43,71 @@
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial"></partial>
+} *@
+
+@model BankApp.ViewModels.CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Ny användare";
+}
+
+
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+
+        <div class="d-flex align-items-center mb-3">
+            <div>
+                <h2 class="mb-0">Ny användare</h2>
+                <div class="text-muted">Lösenordskraven kommer från Identity</div>
+            </div>
+            <div class="ms-auto">
+                <a asp-action="Index" class="btn btn-link">Avbryt</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-action="Create">
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label"></label>
+                        <select asp-for="Role" asp-items="@Model.RoleOptions" class="form-select">
+                            <option value="">-- Välj roll --</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
+                    <div class="btn-list">
+                        <button type="submit" class="btn btn-primary">Skapa användare</button>
+                        <a asp-action="Index" class="btn btn-link">Avbryt</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

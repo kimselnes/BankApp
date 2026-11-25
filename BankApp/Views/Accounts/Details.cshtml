@@ -1,4 +1,4 @@
-﻿@model BankApp.ViewModels.AccountDetailsViewModel
+﻿@* @model BankApp.ViewModels.AccountDetailsViewModel
 @{
     ViewData["Title"] = $"Konto {Model.Account.AccountId}";
 }
@@ -37,11 +37,11 @@
         </tr>
     </thead>
     <tbody id="transactionBody" data-account-id="@Model.Account.AccountId">
-        <partial name="_TransactionRows" model="Model.Transactions.Items" /> @*Partial*@      
+        <partial name="_TransactionRows" model="Model.Transactions.Items" /> Partial      
     </tbody>
-</table>
+</table> *@
 
-@if (Model.Transactions.HasNext)
+@* @if (Model.Transactions.HasNext)
 {
     <button type="button" id="showMoreBtn"
             data-account-id="@Model.Account.AccountId"
@@ -49,6 +49,111 @@
         Visa fler
     </button>
 }
+
+@section Scripts {
+    <script src="~/js/accountTransactions.js" asp-append-version="true"></script>
+} *@
+
+
+@model BankApp.ViewModels.AccountDetailsViewModel
+@{
+    ViewData["Title"] = $"Konto {Model.Account.AccountId}";
+}
+
+<div class="d-flex align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Konto @Model.Account.AccountId</h2>
+        <div class="text-muted">
+            @Model.Account.Frequency — skapat @Model.Account.Created.ToString("yyyy-MM-dd")
+        </div>
+    </div>
+    <div class="ms-auto">
+        <a asp-action="Index" asp-controller="Customers" class="btn btn-link">Tillbaka till kundlistan</a>
+    </div>
+</div>
+
+<div class="row row-deck row-cards mb-3">
+
+    <div class="col-md-4">
+        <div class="card bg-primary-lt">
+            <div class="card-body">
+                <div class="text-muted small">Saldo</div>
+                <div class="h1 mb-0">@Model.Account.Balance.ToString("N2") kr</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kontoinnehavare</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.Account.Owners.Count == 0)
+                {
+                    <span class="text-muted">Inga ägare registrerade</span>
+                }
+                else
+                {
+                    @foreach (var owner in Model.Account.Owners)
+                    {
+                        <a class="btn btn-outline-primary btn-sm me-1 mb-1"
+                           asp-controller="Customers" asp-action="Details"
+                           asp-route-id="@owner.CustomerId">
+                            @owner.Givenname @owner.Surname
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <a asp-action="Withdraw" asp-route-id="@Model.Account.AccountId" class="btn btn-primary">Ta ut</a>
+                <a asp-action="Deposit" asp-route-id="@Model.Account.AccountId" class="btn btn-success">Sätt in</a>
+                <a asp-action="Transfer" asp-route-id="@Model.Account.AccountId" class="btn btn-info">Överför</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Transaktioner</h3>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-vcenter card-table" id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Typ</th>
+                    <th>Operation</th>
+                    <th class="text-end">Belopp</th>
+                    <th class="text-end">Saldo efter</th>
+                    <th>Symbol</th>
+                    <th>Bank</th>
+                    <th>Konto</th>
+                </tr>
+            </thead>
+            <tbody id="transactionBody" data-account-id="@Model.Account.AccountId">
+                <partial name="_TransactionRows" model="Model.Transactions.Items" />
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.Transactions.HasNext)
+    {
+        <div class="card-footer text-center">
+            <button type="button" id="showMoreBtn" class="btn btn-outline-secondary">
+                Visa fler
+            </button>
+        </div>
+    }
+</div>
 
 @section Scripts {
     <script src="~/js/accountTransactions.js" asp-append-version="true"></script>

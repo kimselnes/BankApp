@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BankApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/tabler.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/tabler-flags.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bankapp.css" asp-append-version="true" />
 </head>
 <body>
@@ -25,7 +26,7 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Statistik</a>
                     </li>
 
-                    @if (User.IsInRole("Admin") || User.IsInRole("Cashier"))
+                    @if (User.IsInRole("Cashier"))
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Customers" asp-action="Index">Kunder</a>

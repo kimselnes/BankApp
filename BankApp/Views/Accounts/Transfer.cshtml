@@ -1,4 +1,4 @@
-﻿@model BankApp.ViewModels.TransferViewModel
+﻿@* @model BankApp.ViewModels.TransferViewModel
 
 @{
 	ViewData["Title"] = "Överföring";
@@ -38,3 +38,65 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
+ *@
+
+@model BankApp.ViewModels.TransferViewModel
+
+@{
+    ViewData["Title"] = "Överföring";
+}
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+
+        <div class="d-flex align-items-center mb-3">
+            <div>
+                <h2 class="mb-0">Överföring</h2>
+                <div class="text-muted">Från konto @Model.FromAccountId</div>
+            </div>
+            <div class="ms-auto">
+                <a asp-action="Details" asp-route-id="@Model.FromAccountId" class="btn btn-link">Tillbaka till kontot</a>
+            </div>
+        </div>
+
+        <div class="card mb-3 bg-primary-lt">
+            <div class="card-body">
+                <div class="text-muted small">Saldo på avsändarkontot</div>
+                <div class="h1 mb-0">@Model.Balance.ToString("N2") kr</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-action="Transfer">
+
+                    <input type="hidden" asp-for="FromAccountId" />
+
+                    <div class="mb-3">
+                        <label asp-for="ToAccountId" class="form-label"></label>
+                        <input asp-for="ToAccountId" class="form-control" />
+                        <span asp-validation-for="ToAccountId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Amount" class="form-label"></label>
+                        <input asp-for="Amount" type="number" step="0.01" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="btn-list">
+                        <button type="submit" class="btn btn-primary">Acceptera</button>
+                        <a asp-action="Details" asp-route-id="@Model.FromAccountId" class="btn btn-link">Avbryt</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

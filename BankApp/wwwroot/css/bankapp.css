@@ -21,3 +21,37 @@
 .footer {
     position: static !important;
 }
+
+/*.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('/img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--tblr-border-radius);
+    padding: 4rem 2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}*/
+/*
+.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('/img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--tblr-border-radius);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}*/
+
+.statistics-page {
+    margin: -1rem calc(50% - 50vw) -2rem calc(50% - 50vw);
+    padding: 2rem calc(50vw - 50%);
+    background-image: linear-gradient(rgba(10, 20, 35, 0.82), rgba(10, 20, 35, 0.82)), url('/img/hero.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    background-attachment: fixed;
+    min-height: 100vh;
+}

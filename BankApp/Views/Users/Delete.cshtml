@@ -1,4 +1,4 @@
-﻿@model BankApp.ViewModels.DeleteUserViewModel
+﻿@* @model BankApp.ViewModels.DeleteUserViewModel
 
 <h1>Ta bort användare</h1>
 
@@ -8,4 +8,54 @@
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-danger">Ta bort</button>
     <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
-</form>
+</form> *@
+
+@model BankApp.ViewModels.DeleteUserViewModel
+
+@{
+    ViewData["Title"] = "Ta bort användare";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Ta bort användare</h3>
+            </div>
+            <div class="card-body">
+                <p>Vill du ta bort följande användare?</p>
+
+                <div class="mb-3">
+                    <div class="text-muted small">E-post</div>
+                    <div>@Model.Email</div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small">Roller</div>
+                    <div>
+                        @if (Model.Roles.Count == 0)
+                        {
+                            <span class="badge bg-red-lt">Ingen roll</span>
+                        }
+                        else
+                        {
+                            @foreach (var role in Model.Roles)
+                            {
+                                <span class="badge bg-blue-lt">@role</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <form method="post" asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="btn-list">
+                        <button type="submit" class="btn btn-danger">Ta bort</button>
+                        <a asp-action="Index" class="btn btn-link">Avbryt</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

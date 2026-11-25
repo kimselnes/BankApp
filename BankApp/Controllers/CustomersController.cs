@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BankApp.Controllers
 {
-    [Authorize(Roles = "Admin,Cashier")]
+    [Authorize(Roles = "Cashier")]
     public class CustomersController : Controller
     {
         private readonly ICustomerService _customerService;

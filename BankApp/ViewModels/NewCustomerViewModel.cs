@@ -40,11 +40,6 @@ namespace BankApp.ViewModels
         [Display(Name = "Land")]
         public string Country { get; set; }
 
-        //[Required(ErrorMessage = "Ange landskod.")]
-        //[MaxLength(2, ErrorMessage = "Landskod får inte vara längre än 2 tecken.")]
-        //[Display(Name = "Landskod")]
-        //public string CountryCode { get; set; }
-
         [Display(Name = "Födelsedatum")]
         [DataType(DataType.Date)]
         public DateOnly? Birthday { get; set; }

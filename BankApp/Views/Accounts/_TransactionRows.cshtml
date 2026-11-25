@@ -1,4 +1,4 @@
-﻿@model IList<BankApp.Data.DTOs.TransactionDto>
+﻿@* @model IList<BankApp.Data.DTOs.TransactionDto>
 
 @foreach (var transaction in Model)
 {
@@ -11,5 +11,28 @@
         <td>@transaction.Symbol</td>
         <td>@transaction.Bank</td>
         <td>@transaction.RecipientAccountNumber</td>
+    </tr>
+} *@
+
+@model IList<BankApp.Data.DTOs.TransactionDto>
+
+@foreach (var transaction in Model)
+{
+    <tr>
+        <td>@transaction.Date.ToString("yyyy-MM-dd")</td>
+        <td>@transaction.Type</td>
+        <td>@transaction.Operation</td>
+        <td class="text-end">
+            @(transaction.Amount < 0 ? "" : "+")@transaction.Amount.ToString("N2")
+        </td>
+        <td class="text-end">@transaction.BalanceAfterTransaction.ToString("N2")</td>
+        <td>@(string.IsNullOrEmpty(transaction.Symbol) ? "—" : transaction.Symbol)</td>
+        <td>@(string.IsNullOrEmpty(transaction.Bank) ? "—" : transaction.Bank)</td>
+        <td>
+            @(string.IsNullOrEmpty(transaction.RecipientAccountNumber)
+                || transaction.RecipientAccountNumber == "0"
+                ? "—"
+                : transaction.RecipientAccountNumber)
+        </td>
     </tr>
 }

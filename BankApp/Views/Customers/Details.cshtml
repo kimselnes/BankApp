@@ -1,4 +1,4 @@
-﻿@model BankApp.ViewModels.CustomerDetailsViewModel
+﻿@* @model BankApp.ViewModels.CustomerDetailsViewModel
 @{
 	ViewData["Title"] = $"Kund {Model.Customer.CustomerId}";
 }
@@ -56,4 +56,105 @@
             <th></th>
         </tr>
     </tfoot>
-</table>
+</table> *@
+
+@model BankApp.ViewModels.CustomerDetailsViewModel
+@{
+    ViewData["Title"] = $"Kund {Model.Customer.CustomerId}";
+}
+
+<div class="d-flex align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">@Model.Customer.Givenname @Model.Customer.Surname</h2>
+        <div class="text-muted">Kundnummer @Model.Customer.CustomerId</div>
+    </div>
+    <div class="ms-auto">
+        <a asp-action="Edit" asp-route-id="@Model.Customer.CustomerId" class="btn btn-primary">Ändra</a>
+        <a asp-action="Index" class="btn btn-link">Tillbaka till kundlistan</a>
+    </div>
+</div>
+
+<div class="row row-deck row-cards">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kunduppgifter</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-2"><span class="text-muted">Personnummer:</span> @(Model.Customer.NationalId ?? "—")</div>
+                        <div class="mb-2"><span class="text-muted">Kön:</span> @Model.Customer.Gender</div>
+                        <div class="mb-2">
+                            <span class="text-muted">Födelsedatum:</span>
+                            @(Model.Customer.Birthday.HasValue ? Model.Customer.Birthday.Value.ToString("yyyy-MM-dd") : "—")
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2"><span class="text-muted">Adress:</span> @Model.Customer.Streetaddress</div>
+                        <div class="mb-2"><span class="text-muted">Postnummer och ort:</span> @Model.Customer.Zipcode @Model.Customer.City</div>
+                        <div class="mb-2"><span class="text-muted">Land:</span> @Model.Customer.Country (@Model.Customer.CountryCode)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kontakt</h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-2"><span class="text-muted">Telefon:</span> @Model.Customer.Telephonenumber</div>
+                <div class="mb-2"><span class="text-muted">E-post:</span> @Model.Customer.Emailaddress</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card bg-primary-lt">
+            <div class="card-body">
+                <div class="text-muted small">Totalt saldo</div>
+                <div class="h1 mb-0">@Model.Customer.TotalBalance.ToString("N2") kr</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Konton</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-vcenter card-table">
+                    <thead>
+                        <tr>
+                            <th>Kontonummer</th>
+                            <th>Kontotyp</th>
+                            <th>Skapat</th>
+                            <th class="text-end">Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var account in Model.Customer.Accounts)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.AccountId">
+                                        @account.AccountId
+                                    </a>
+                                </td>
+                                <td>@account.Frequency</td>
+                                <td class="text-muted">@account.Created.ToString("yyyy-MM-dd")</td>
+                                <td class="text-end">@account.Balance.ToString("N2") kr</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
