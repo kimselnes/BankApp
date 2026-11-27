@@ -10,7 +10,7 @@ Webbapplikationen är driftsatt på Azure:
 
 [kimbankappazure-hyc3apf2ascacmcq.swedencentral-01.azurewebsites.net](https://kimbankappazure-hyc3apf2ascacmcq.swedencentral-01.azurewebsites.net/)
 
-Users:
+Test accounts for demonstration purposes only:
 
 User:  quest@admin.se
 Passw: Abc123#
